@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class SiswaController extends Controller
 {
@@ -18,7 +19,16 @@ class SiswaController extends Controller
 
     public function create(Request $request)
     {
-        \App\Siswa::create($request->all());
+        $siswa = \App\Siswa::create($request->all());
+
+        // $user = new \App\User;
+        // $user->role = 'siswa';
+        // $user->name = $siswa->nama_depan;
+        // $user->email = $request->email;
+        // $user->password = 'password';
+        // $user->remember_token = Str::random(60);
+        // $user->save();
+
         return redirect('/siswa')->with('sukses','Data Berhasil di input!');
     }
     
@@ -32,6 +42,11 @@ class SiswaController extends Controller
     {
         $siswa = \App\Siswa::find($id);
         $siswa->update($request->all());
+        if($request->hasFile('avatar')){
+            $request->file('avatar')->move('images/', $request->file('avatar')->getClientOriginalName());
+            $siswa->avatar = $request->file('avatar')->getClientOriginalName();
+            $siswa->save();
+        }
         return redirect('/siswa')->with('sukses','Data Berhasil di update!');
     }
 

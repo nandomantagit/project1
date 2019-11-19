@@ -23,7 +23,6 @@
                                                         <th>Jenis Kelamin</th>
                                                         <th>Agama</th>
                                                         <th>Alamat</th>
-                                                        <th>Email</th>
                                                         <th>Aksi</th>
                                                 </tr>
                                             </thead>
@@ -35,7 +34,7 @@
                                                     <td>{{ $siswa->jenis_kelamin}}</td>
                                                     <td>{{ $siswa->agama}}</td>
                                                     <td>{{ $siswa->alamat}}</td>
-                                                    <td>{{ $siswa->email}}</td>
+                                                    {{-- <td>{{ $siswa->email}}</td> --}}
                                                     <td>
                                                         <a href="/siswa/{{$siswa->id}}/edit" class="btn btn-warning btn-sm">Edit</a>
                                                         <a href="/siswa/{{$siswa->id}}/delete" class="btn btn-danger btn-sm" onclick="return confirm('Hapus data ini?')">Delete</a>
@@ -72,6 +71,11 @@
                                 <label for="exampleInputEmail1">Nama Belakang</label>
                                 <input name="nama_belakang" type="text" class="form-control" id="nama_belakang" aria-describedby="emailHelp" placeholder="Nama Belakang">                                 
                             </div>
+                                {{-- <div class="form-group">
+                                        <label for="exampleInputEmail1">Email address</label>
+                                        <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                </div> --}}
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Jenis Kelamin</label>
                                 <select name="jenis_kelamin" class="form-control" id="jenis_kelamin">
@@ -86,11 +90,6 @@
                             <div class="form-group">
                                 <label for="exampleFormControlTextarea1">Alamat</label>
                                 <textarea name="alamat" class="form-control" id="alamat" rows="3"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Email address</label>
-                                <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
-                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                             </div>
                         </div>
                         <div class="modal-footer">

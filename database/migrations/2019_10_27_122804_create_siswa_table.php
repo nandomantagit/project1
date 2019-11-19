@@ -20,7 +20,6 @@ class CreateSiswaTable extends Migration
             $table->string('jenis_kelamin');
             $table->string('agama');
             $table->string('alamat');
-            $table->string('email');
             $table->timestamps();
         });
     }

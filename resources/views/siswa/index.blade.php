@@ -71,11 +71,11 @@
                                 <label for="exampleInputEmail1">Nama Belakang</label>
                                 <input name="nama_belakang" type="text" class="form-control" id="nama_belakang" aria-describedby="emailHelp" placeholder="Nama Belakang">                                 
                             </div>
-                                {{-- <div class="form-group">
-                                        <label for="exampleInputEmail1">Email address</label>
-                                        <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
-                                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                                </div> --}}
+                            <div class="form-group">
+                                    <label for="exampleInputEmail1">Email address</label>
+                                    <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            </div>
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Jenis Kelamin</label>
                                 <select name="jenis_kelamin" class="form-control" id="jenis_kelamin">

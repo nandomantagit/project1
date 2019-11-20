@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Siswa extends Model
 {
     protected $table = 'siswa';
-    protected $fillable = ['nama_depan','nama_belakang','jenis_kelamin','agama','alamat','email','avatar'];
+    protected $fillable = ['nama_depan','nama_belakang','jenis_kelamin','agama','alamat','user_id','avatar'];
 
     public function getAvatar() 
     {
@@ -16,4 +16,10 @@ class Siswa extends Model
         }
         return asset('images/'.$this->avatar);
     }
+
+    public function mapel()
+    {
+        return $this->belongsToMany(Mapel::class)->withPivot(['nilai']);
+    }
+
 }

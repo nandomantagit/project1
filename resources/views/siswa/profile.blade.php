@@ -5,6 +5,16 @@
     <!-- MAIN CONTENT -->
     <div class="main-content">
         <div class="container-fluid">
+            @if(session('sukses'))
+            <div class="alert alert-success" role="alert">
+                {{session('sukses')}}
+            </div>
+            @endif
+            @if(session('eror'))
+            <div class="alert alert-danger" role="alert">
+                {{session('eror')}}
+            </div>
+            @endif
             <div class="panel panel-profile">
                 <div class="clearfix">
                     <!-- LEFT COLUMN -->
@@ -51,7 +61,10 @@
                     <!-- END LEFT COLUMN -->
                     <!-- RIGHT COLUMN -->
                     <div class="profile-right">
-                    
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                Tambah Nilai
+                        </button>
                         <div class="panel">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Mata Pelajaran</h3>
@@ -79,6 +92,9 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="panel">
+                            <div id="chartNilai"></div>
+                        </div>
                     </div>
                     <!-- END RIGHT COLUMN -->
                 </div>
@@ -87,4 +103,87 @@
     </div>
     <!-- END MAIN CONTENT -->
 </div>
+
+    <!-- Modal Tambah Nilai-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Tambah Nilai</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="/siswa/{{$siswa->id}}/addnilai" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="form-group">
+                    <label for="mapel">Example select</label>
+                    <select class="form-control" id="mapel" name="mapel">
+                        @foreach($matapelajaran as $mp)
+                        <option value="{{$mp->id}}">{{$mp->nama}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group{{$errors->has('nilai') ? ' has-error' : ''}}">
+                    <label for="exampleInputEmail1">Nilai</label>
+                    <input name="nilai" type="text" class="form-control" id="nilai" aria-describedby="emailHelp" placeholder="Nilai" value="{{old('nilai')}}">
+                    @if($errors->has('nilai'))
+                            <span class="help-block">{{$errors->first('nilai')}}</span>
+                    @endif
+                </div>
+        </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
+
+@stop
+
+@section('footer')
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script>
+    Highcharts.chart('chartNilai', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Laporan Data Siswa'
+        },
+        subtitle: {
+            text: 'Tahun ajaran 2019-2020'
+        },
+        xAxis: {
+            categories: {!!json_encode($categories)!!},
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Nilai'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: 'Nilai',
+            data: {!! json_encode($data)!!}
+        }]
+    });
+</script>
 @stop

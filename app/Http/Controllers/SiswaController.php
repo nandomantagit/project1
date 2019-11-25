@@ -5,15 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\User;
+use App\Siswa;
+use App\Exports\SiswaExport;
+use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 
 class SiswaController extends Controller
 {
     public function index(Request $request)
     {
         if($request->has('cari')){
-            $data_siswa = \App\Siswa::where('nama_depan', 'LIKE', '%'.$request->cari.'%')->get();     
+            $data_siswa = Siswa::where('nama_depan', 'LIKE', '%'.$request->cari.'%')->get();     
         }else{
-            $data_siswa = \App\Siswa::all();
+            $data_siswa = Siswa::all();
         }
         return view('siswa.index', ['data_siswa' => $data_siswa]);
     }
@@ -42,7 +46,7 @@ class SiswaController extends Controller
 
         //insert data ke table Siswa
         $request->request->add(['user_id' => $user->id]);
-        $siswa = \App\Siswa::create($request->all());
+        $siswa = Siswa::create($request->all());
         if($request->hasFile('avatar')){
             $request->file('avatar')->move('images/', $request->file('avatar')->getClientOriginalName());
             $siswa->avatar = $request->file('avatar')->getClientOriginalName();
@@ -52,15 +56,13 @@ class SiswaController extends Controller
         return redirect('/siswa')->with('sukses','Data Berhasil di input!');
     }
     
-    public function edit($id)
+    public function edit(Siswa $siswa)
     {
-        $siswa = \App\Siswa::find($id);
         return view('siswa/edit',['siswa' => $siswa]);
     }
     
-    public function update(Request $request,$id)
+    public function update(Request $request, Siswa $siswa)
     {
-        $siswa = \App\Siswa::find($id);
         $siswa->update($request->all());
         if($request->hasFile('avatar')){
             $request->file('avatar')->move('images/', $request->file('avatar')->getClientOriginalName());
@@ -70,16 +72,14 @@ class SiswaController extends Controller
         return redirect('/siswa')->with('sukses','Data Berhasil di update!');
     }
 
-    public function delete($id)
+    public function delete(Siswa $siswa)
     {
-        $siswa = \App\Siswa::find($id);
         $siswa->delete();
         return redirect('/siswa')->with('sukses','Data Berhasil di dihapus!');
     }
 
-    public function profile($id)
+    public function profile(Siswa $siswa)
     {
-        $siswa = \App\Siswa::find($id);
         $matapelajaran = \App\Mapel::all();
 
         // Menyimpan data untuk chart
@@ -97,9 +97,8 @@ class SiswaController extends Controller
         return view('siswa/profile',['siswa' => $siswa, 'matapelajaran' => $matapelajaran, 'categories' => $categories, 'data' => $data]);
     }
 
-    public function addnilai(Request $request,$idsiswa)
+    public function addnilai(Request $request, Siswa $siswa)
     {
-        $siswa = \App\Siswa::find($idsiswa);
         if($siswa->mapel()->where('mapel_id', $request->mapel)->exists()) {
             return redirect('siswa/'.$idsiswa.'/profile')->with('eror','Data Mata Pelajaran sudah ada!');
         }
@@ -111,9 +110,20 @@ class SiswaController extends Controller
 
     public function deletenilai($idsiswa, $idmapel)
     {
-        $siswa = \App\Siswa::find($idsiswa);
+        $siswa = Siswa::find($idsiswa);
         $siswa->mapel()->detach($idmapel);
         return redirect()->back()->with('sukses','Data nilai berhasil dihapus!');
     }
     
+    public function exportExcel() 
+    {
+        return Excel::download(new SiswaExport, 'Siswa.xlsx');
+    }
+
+    public function exportPdf() 
+    {
+        $siswa = Siswa::all();
+        $pdf = PDF::loadView('export.siswapdf', ['siswa' => $siswa]);
+        return $pdf->download('Siswa.pdf');
+    }
 }

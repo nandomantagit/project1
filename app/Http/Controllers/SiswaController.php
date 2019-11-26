@@ -74,7 +74,7 @@ class SiswaController extends Controller
 
     public function delete(Siswa $siswa)
     {
-        $siswa->delete();
+        $siswa->delete($siswa);
         return redirect('/siswa')->with('sukses','Data Berhasil di dihapus!');
     }
 

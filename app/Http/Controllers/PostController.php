@@ -18,4 +18,16 @@ class PostController extends Controller
     {
         return view('posts.add');
     }
+
+    public function create(Request $request)
+    {
+        $posts = Post::Create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'user_id' => auth()->user()->id,
+            'thumbnail' => $request->thumbnail,
+        ]);
+        
+        return redirect()->route('posts.index')->with('sukses', 'Post berhasil disubmit');
+    }
 }

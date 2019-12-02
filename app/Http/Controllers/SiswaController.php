@@ -97,8 +97,9 @@ class SiswaController extends Controller
         return view('siswa/profile',['siswa' => $siswa, 'matapelajaran' => $matapelajaran, 'categories' => $categories, 'data' => $data]);
     }
 
-    public function addnilai(Request $request, Siswa $siswa)
+    public function addnilai(Request $request, $idsiswa)
     {
+        $siswa = \App\Siswa::find($idsiswa);
         if($siswa->mapel()->where('mapel_id', $request->mapel)->exists()) {
             return redirect('siswa/'.$idsiswa.'/profile')->with('eror','Data Mata Pelajaran sudah ada!');
         }
@@ -140,11 +141,23 @@ class SiswaController extends Controller
         })
         ->addColumn('aksi',function($s){
             return '
-                <a href="' . route('siswa.edit', $s->id) . '" class="btn btn-xs btn-warning" title="Edit">Edit</a>
+                <a href="/siswa/'.$s->id.'/profile/" class="btn btn-xs btn-warning">Profile</a>
                 <a href="' . route('siswa.delete', $s->id) . '" siswa-id="'.$s->id.'" class="btn btn-danger btn-sm delete">Delete</a>
                 ';
         })
         ->rawColumns(['nama_lengkap','rata2_nilai','aksi' => 'aksi'])
         ->toJson();
+    }
+
+    public function profilesaya()
+    {
+        $siswa = auth()->user()->siswa;
+        return view('siswa.profilesaya', compact(['siswa']));
+    }
+
+    public function importexcel(Request $request)
+    {
+        Excel::import(new \App\Imports\SiswaImport, $request->file('data_siswa'));
+        dd($request->all());
     }
 }

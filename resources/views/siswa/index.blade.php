@@ -10,6 +10,9 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">Data Siswa</h3>
                                     <div class="right">
+                                        <a type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#importSiswa">
+                                               Import XLS
+                                        </a>
                                         <a href="/siswa/exportExcel" class="btn btn-sm btn-primary">Export Excel</a>
                                         <a href="/siswa/exportPdf" class="btn btn-sm btn-primary">Export PDF</a>
 
@@ -40,7 +43,8 @@
             </div>
         </div>
     </div>
-    <!-- Modal -->
+
+    <!-- Modal tambah data siswa -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -116,6 +120,30 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Import xls -->
+<div class="modal fade" id="importSiswa" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              {!!Form::open(['route' => 'siswa.import', 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data'])!!}
+              {!!Form::file('data_siswa')!!}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+              <input type="submit" class="btn btn-sm btn-primary" value="Import">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
 @stop
 
 @section('footer')

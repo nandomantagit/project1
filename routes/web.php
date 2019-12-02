@@ -21,6 +21,7 @@ Route::group(['middleware' => ['auth', 'checkRole:admin']], function () {
     Route::get('/siswa/{id}/{idmapel}/deletenilai', 'SiswaController@deletenilai');
     Route::get('/siswa/exportExcel', 'SiswaController@exportExcel');
     Route::get('/siswa/exportPdf', 'SiswaController@exportPdf');
+    Route::post('/siswa/import', 'SiswaController@importexcel')->name('siswa.import');
     
     // guru controller
     Route::get('/guru/{id}/profile', 'GuruController@profile');
@@ -41,9 +42,12 @@ Route::group(['middleware' => ['auth', 'checkRole:admin']], function () {
 });
 
 Route::group(['middleware' => ['auth', 'checkRole:admin,siswa']], function () {
-
     Route::get('/dashboard', 'DashboardController@index')->middleware('auth');
 
+});
+
+Route::group(['middleware' => ['auth', 'checkRole:siswa']], function(){
+   Route::get('profilesaya', 'SiswaController@profilesaya'); 
 });
 
 Route::get('getdatasiswa', [

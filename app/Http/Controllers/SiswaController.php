@@ -139,11 +139,12 @@ class SiswaController extends Controller
             return $s->rataRataNilai();
         })
         ->addColumn('aksi',function($s){
-            return '<a href="#" class="btn btn-warning">Edit</a>
-            <a href="#" class="btn btn-danger">Delete</a>
-            ';
+            return '
+                <a href="' . route('siswa.edit', $s->id) . '" class="btn btn-xs btn-warning" title="Edit">Edit</a>
+                <a href="' . route('siswa.delete', $s->id) . '" siswa-id="'.$s->id.'" class="btn btn-danger btn-sm delete">Delete</a>
+                ';
         })
-        ->rawColumns(['nama_lengkap','rata2_nilai','aksi'])
+        ->rawColumns(['nama_lengkap','rata2_nilai','aksi' => 'aksi'])
         ->toJson();
     }
 }

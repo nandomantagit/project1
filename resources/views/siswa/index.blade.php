@@ -135,6 +135,7 @@
                 ]
             });            
 
+
             $('.delete').click(function(){
                 var siswa_id = $(this).attr('siswa-id');
                 swal({

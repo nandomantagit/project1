@@ -13,9 +13,9 @@ Route::group(['middleware' => ['auth', 'checkRole:admin']], function () {
     Route::get('/dashboard', 'DashboardController@index');
     Route::get('/siswa', 'SiswaController@index');
     Route::post('/siswa/create', 'SiswaController@create');
-    Route::get('/siswa/{siswa}/edit', 'SiswaController@edit');
+    Route::get('/siswa/{siswa}/edit', 'SiswaController@edit')->name('siswa.edit');
     Route::post('/siswa/{siswa}/update', 'SiswaController@update');
-    Route::get('/siswa/{siswa}/delete', 'SiswaController@delete');
+    Route::get('/siswa/{siswa}/delete', 'SiswaController@delete')->name('siswa.delete');
     Route::get('/siswa/{siswa}/profile', 'SiswaController@profile'); 
     Route::post('/siswa/{siswa}/addnilai', 'SiswaController@addnilai');
     Route::get('/siswa/{id}/{idmapel}/deletenilai', 'SiswaController@deletenilai');

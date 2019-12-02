@@ -18,11 +18,10 @@
                                     </div>
                                 </div>
                                 <div class="panel-body">
-                                    <table class="table table-hover">
+                                    <table class="table table-hover" id="datatable">
                                         <thead>
                                             <tr>
-                                                <th>Nama Depan</th>
-                                                <th>Nama Belakang</th>
+                                                <th>Nama Lengkap</th>
                                                 <th>Jenis Kelamin</th>
                                                 <th>Agama</th>
                                                 <th>Alamat</th>
@@ -31,21 +30,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                                @foreach($data_siswa as $siswa)
-                                                <tr>
-                                                <td><a href="/siswa/{{$siswa->id}}/profile">{{ $siswa->nama_depan}}</td></a>
-                                                <td><a href="/siswa/{{$siswa->id}}/profile">{{ $siswa->nama_belakang}}</td></a>
-                                                <td>{{ $siswa->jenis_kelamin}}</td>
-                                                <td>{{ $siswa->agama}}</td>
-                                                <td>{{ $siswa->alamat}}</td>
-                                                <td>{{ $siswa->rataRataNilai()}}</td>
-                                                {{-- <td>{{ $siswa->email}}</td> --}}
-                                                <td>
-                                                    <a href="/siswa/{{$siswa->id}}/edit" class="btn btn-warning btn-sm">Edit</a>
-                                                    <a href="#" class="btn btn-danger btn-sm delete" siswa-id ="{{$siswa->id}}">Delete</a>
-                                                </td>
-                                                </tr>
-                                                @endforeach
+                                              
                                         </tbody>
                                     </table>
                                 </div>
@@ -135,20 +120,36 @@
 
 @section('footer')
     <script>
-        $('.delete').click(function(){
-            var siswa_id = $(this).attr('siswa-id');
-            swal({
-                title: "Anda yakin?",
-                text: "Hapus data siswa dengan id "+siswa_id + " ??",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willDelete) => {
-                console.log(willDelete);
-                if (willDelete) {
-                    window.location = "/siswa/"+siswa_id+"/delete";
-                }
+        $(document).ready(function(){
+            $('#datatable').DataTable({
+                processing:true,
+                serverside:true,
+                ajax:"{{route('ajax.get.data.siswa')}}",
+                columns:[
+                    {data:'nama_lengkap',name:'nama_lengkap'},
+                    {data:'jenis_kelamin',name:'jenis_kelamin'},
+                    {data:'agama',name:'agama'},
+                    {data:'alamat',name:'alamat'},
+                    {data:'rata2_nilai',name:'rata2_nilai'},
+                    {data:'aksi',name:'aksi'},
+                ]
+            });            
+
+            $('.delete').click(function(){
+                var siswa_id = $(this).attr('siswa-id');
+                swal({
+                    title: "Anda yakin?",
+                    text: "Hapus data siswa dengan id "+siswa_id + " ??",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    console.log(willDelete);
+                    if (willDelete) {
+                        window.location = "/siswa/"+siswa_id+"/delete";
+                    }
+                });
             });
         });
     </script>

@@ -46,6 +46,11 @@ Route::group(['middleware' => ['auth', 'checkRole:admin,siswa']], function () {
 
 });
 
+Route::get('getdatasiswa', [
+    'uses' => 'SiswaController@getdatasiswa',
+    'as' => 'ajax.get.data.siswa',
+]);
+
 Route::get('/{slug}', [
     'uses' => 'SiteController@singlepost',
     'as' => 'site.single.post',

@@ -52,7 +52,7 @@
                                     <li>Jenis Kelamin<span>{{$siswa->jenis_kelamin}}</span></li>
                                     <li>Agama<span>{{$siswa->agama}}</span></li>
                                     <li>Alamat<span>{{$siswa->alamat}}</span></li>                                
-                                    <li>Email<span>{{$siswa->email}}</span></li>                                
+                                    {{-- <li>Email<span>{{$siswa->email}}</span></li>                                 --}}
                                 </ul>
                             </div>
             
@@ -63,10 +63,6 @@
                     <!-- END LEFT COLUMN -->
                     <!-- RIGHT COLUMN -->
                     <div class="profile-right">
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                Tambah Nilai
-                        </button>
                         <div class="panel">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Mata Pelajaran</h3>

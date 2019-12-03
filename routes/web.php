@@ -1,5 +1,13 @@
 <?php
 
+// Route::get('kirimemail', function(){
+//     \Mail::raw('halo siswa baru', function($message) {
+//         $message->to('siswabaru1@gmail.com', 'siswabaru1');
+//         $message->subject('Pendaftaran Siswa');
+//     });
+// });
+
+
 Route::get('/', 'SiteController@home');
 Route::get('/register', 'SiteController@register');
 Route::post('/postregister', 'SiteController@postregister');

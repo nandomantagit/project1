@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\User;
 use App\Siswa;
 use App\Post;
+use App\Mail\NotifPendaftaranSiswa;
 
 class SiteController extends Controller
 {
@@ -34,6 +35,13 @@ class SiteController extends Controller
         //insert data ke table Siswa
         $request->request->add(['user_id' => $user->id]);
         $siswa = Siswa::create($request->all());
+
+        // \Mail::raw('Selamat datang ' .$user->name, function ($message) use($user) {
+        //     $message->to($user->email, $user->name);
+        //     $message->subject('Selamat anda sudah terdaftar di Sekolah kami');
+        // });
+        // kirim email ke email user
+        \Mail::to($user->email)->send(new NotifPendaftaranSiswa);
 
         return redirect('/')->with('sukses', 'Berhasil daftar, silahkan login!');
     }

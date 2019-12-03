@@ -53,7 +53,7 @@
                                     <li>Jenis Kelamin<span>{{$siswa->jenis_kelamin}}</span></li>
                                     <li>Agama<span>{{$siswa->agama}}</span></li>
                                     <li>Alamat<span>{{$siswa->alamat}}</span></li>                                
-                                    <li>Email<span>{{$siswa->email}}</span></li>                                
+                                    {{-- <li>Email<span>{{$siswa->email}}</span></li>                                 --}}
                                 </ul>
                             </div>
             
